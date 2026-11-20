@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuProfe20 MathLab - Estadística para Secundaria</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { fun: ['Nunito', 'sans-serif'] },
+                    colors: {
+                        cat0: '#f43f5e', // rose-500
+                        cat1: '#3b82f6', // blue-500
+                        cat2: '#eab308', // yellow-500
+                        cat3: '#10b981', // emerald-500
+                        cat4: '#8b5cf6', // violet-500
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { margin: 0; padding: 0; overflow: hidden; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid white; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* ESTILOS METÁLICOS VIBRANTES PARA CARTELES DE PREMIO */
+        .metallic-gold {
+            background: linear-gradient(135deg, #fef08a 0%, #eab308 40%, #fef08a 60%, #a16207 100%);
+            border: 4px solid #fef08a;
+            box-shadow: inset 0 0 25px rgba(255,255,255,0.9), 0 15px 45px rgba(234, 179, 8, 0.7);
+            color: #422006;
+        }
+        .metallic-silver {
+            background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 40%, #f8fafc 60%, #64748b 100%);
+            border: 4px solid #ffffff;
+            box-shadow: inset 0 0 25px rgba(255,255,255,0.9), 0 15px 45px rgba(148, 163, 184, 0.7);
+            color: #0f172a;
+        }
+        .metallic-celeste {
+            background: linear-gradient(135deg, #e0f2fe 0%, #38bdf8 40%, #e0f2fe 60%, #0369a1 100%);
+            border: 4px solid #bae6fd;
+            box-shadow: inset 0 0 25px rgba(255,255,255,0.9), 0 15px 45px rgba(56, 189, 248, 0.7);
+            color: #0c4a6e;
+        }
+        .metallic-text-gold { text-shadow: 1px 2px 0px rgba(255,255,255,0.6), -1px -1px 0px rgba(0,0,0,0.15); }
+        .metallic-text-silver { text-shadow: 1px 2px 0px rgba(255,255,255,0.8), -1px -1px 0px rgba(0,0,0,0.2); }
+        .metallic-text-celeste { text-shadow: 1px 2px 0px rgba(255,255,255,0.7), -1px -1px 0px rgba(0,0,0,0.15); }
+
+        @keyframes gradient-x { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .animate-gradient-x { background-size: 200% 200%; animation: gradient-x 10s ease infinite; }
+        
+        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); } 100% { transform: translateY(-100vh) rotate(360deg); } }
+        @keyframes slideInRight { 0% { opacity: 0; transform: translateX(20px); } 100% { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes confettiExplosion { 0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; } 80% { opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--rot)); opacity: 0; } }
+        @keyframes jellyPop { 0% { transform: scale3d(.3, .3, .3); opacity: 0; } 20% { transform: scale3d(1.15, 1.15, 1.15); } 40% { transform: scale3d(.9, .9, .9); } 60% { transform: scale3d(1.05, 1.05, 1.05); opacity: 1; } 80% { transform: scale3d(.97, .97, .97); } 100% { transform: scale3d(1, 1, 1); opacity: 1; } }
+        @keyframes wiggle { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg) scale(1.08); } }
+        @keyframes robotFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes robotThinkTilt { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(8deg) translateY(-4px); } }
+        @keyframes robotJump { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-18px); } }
+        @keyframes robotTalkArmL { 0%, 100% { transform: rotate(45deg); } 50% { transform: rotate(100deg); } }
+        @keyframes robotTalkArmR { 0%, 100% { transform: rotate(-45deg); } 50% { transform: rotate(-100deg); } }
+        
+        .animate-floatUp { animation: floatUp linear infinite; }
+        .animate-slideInRight { animation: slideInRight 0.3s ease-out forwards; }
+        .animate-fadeIn { animation: fadeIn 0.35s ease-out forwards; }
+        .animate-confettiExplosion { animation: confettiExplosion 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .animate-jellyPop { animation: jellyPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .animate-wiggle { animation: wiggle 0.25s ease-in-out 3; }
+        .animate-robotFloat { animation: robotFloat 3s ease-in-out infinite; }
+        .animate-robotThinkTilt { animation: robotThinkTilt 2s ease-in-out infinite; }
+        .animate-robotJump { animation: robotJump 0.9s cubic-bezier(0.28, 0.84, 0.42, 1) infinite; }
+        .animate-robotTalkArmL { animation: robotTalkArmL 0.5s ease-in-out infinite; }
+        .animate-robotTalkArmR { animation: robotTalkArmR 0.5s ease-in-out infinite 0.1s; }
+
+        .pie-chart {
+            border-radius: 50%;
+            transition: background 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        @font-face { font-family: "Latin Modern Math"; src: url(data:font/otf;base64,T1RUTwANAIAAAwBQQ0ZGIKeYutUAAADkAABO8kdERUYAEQDAAABW+AAAABZHUE9TABkADAAAVxAAAAAQR1NVQm2MdH8AAFcgAAAAGk1BVEjLrjOlAABXPAAABeBPUy8yIBU+rQAAUzQAAABgY21hcAaRJm0AAFZkAAAAdGhlYWQLXwg+AABP2AAAADZoaGVhD9EN7wAAUxAAAAAkaG10eNUQQD8AAFAQAAADAG1heHAAwFAAAAAA3AAAAAZuYW1lQqlUQQAAU5QAAALOcG9zdP8nACgAAFbYAAAAIAAAUAAAwAAAAQAEAgABAQEYTGF0aW5Nb2Rlcm5NYXRoLVJlZ3VsYXIAAQEBMPh4APh5Afh6Avh7A/gYBPtcDAOzDAT+phz0DBwP8hwN6AUcBjIPyBw5QBIcBlQRAGECAAEADQAaACYAMwBBAFAAXABpAHUAggCQAJ8AqwC4AMQA0QDfAO4A+gEHARMBIAEuAT0BSQFWAWIBbwF9AYwBmAGlAbEBvgHMAdsB5wH0AfsCAgIJAhACFwIeAioCNwI+AkoCUQJYAl8CbAJzAnoCiAKXAp4CpQKsArMCugLBAsoC0gLaAuIC7gL4AwADDAMWAx4DKgM0AzwDSANSA1oDZgNwA3gDhAOOA5YDogOsA7YDwAPKA9MD2wPjA+gD9QTuBQUFFnBhcmVubGVmdC52MXBhcmVucmlnaHQudjFicmFjZWxlZnQudjFicmFjZXJpZ2h0LnYxYnJhY2tldGxlZnQudjFicmFja2V0cmlnaHQudjFwYXJlbmxlZnQudjJwYXJlbnJpZ2h0LnYyYnJhY2VsZWZ0LnYyYnJhY2VyaWdodC52MmJyYWNrZXRsZWZ0LnYyYnJhY2tldHJpZ2h0LnYycGFyZW5sZWZ0LnYzcGFyZW5yaWdodC52M2JyYWNlbGVmdC52M2JyYWNlcmlnaHQudjNicmFja2V0bGVmdC52M2JyYWNrZXRyaWdodC52M3BhcmVubGVmdC52NHBhcmVucmlnaHQudjRicmFjZWxlZnQudjRicmFjZXJpZ2h0LnY0YnJhY2tldGxlZnQudjRicmFja2V0cmlnaHQudjRwYXJlbmxlZnQudjVwYXJlbnJpZ2h0LnY1YnJhY2VsZWZ0LnY1YnJhY2VyaWdodC52NWJyYWNrZXRsZWZ0LnY1YnJhY2tldHJpZ2h0LnY1cGFyZW5sZWZ0LnY2cGFyZW5yaWdodC52NmJyYWNlbGVmdC52NmJyYWNlcmlnaHQudjZicmFja2V0bGVmdC52NmJyYWNrZXRyaWdodC52NnBhcmVubGVmdC52N3BhcmVucmlnaHQudjd1bmkyMzlEdW5pMjM5Q3VuaTIzOUJ1bmkyM0EwdW5pMjM5RnVuaTIzOUVicmFjZWxlZnQudjdicmFjZXJpZ2h0LnY3dW5pMjNBOWJyYWNlbGVmdC5leHVuaTIzQTh1bmkyM0E3dW5pMjNBRGJyYWNlcmlnaHQuZXh1bmkyM0FDdW5pMjNBQmJyYWNrZXRsZWZ0LnY3YnJhY2tldHJpZ2h0LnY3dW5pMjNBM3VuaTIzQTJ1bmkyM0ExdW5pMjNBNnVuaTIzQTV1bmkyM0E0bWludXMubGZ0bWludXMuZXhtaW51cy5ydHNsYXNoLnYxYmFja3NsYXNoLnYxZGl2aWRlcy52MXNsYXNoLnYyYmFja3NsYXNoLnYyZGl2aWRlcy52MnNsYXNoLnYzYmFja3NsYXNoLnYzZGl2aWRlcy52M3NsYXNoLnY0YmFja3NsYXNoLnY0ZGl2aWRlcy52NHNsYXNoLnY1YmFja3NsYXNoLnY1ZGl2aWRlcy52NXNsYXNoLnY2YmFja3NsYXNoLnY2ZGl2aWRlcy52NnNsYXNoLnY3YmFja3NsYXNoLnY3ZGl2aWRlcy52N2RpdmlkZXMuYnRkaXZpZGVzLmV4ZGl2aWRlcy50cGVxdWFsLmxmdGVxdWFsLmV4ZXF1YWwucnRhbHBoYVZlcnNpb24gMS45NTlDb3B5cmlnaHQgMjAxMi0tMjAxNCBmb3IgTGF0aW4gTW9kZXJuIE1hdGggT1RGIGJ5IEIuIEphY2tvd3NraSwgUC4gU3RyemVsY3p5ayBhbmQgUC4gUGlhbm93c2tpIChvbiBiZWhhbGYgb2YgVGVYIHVzZXJzIGdyb3VwcykuIFRoaXMgd29yayBpcyByZWxlYXNlZCB1bmRlciB0aGUgR1VTVCBGb250IExpY2Vuc2UgLS0gc2VlIGh0dHA6Ly90dWcub3JnL2ZvbnRzL2xpY2Vuc2VzL0dVU1QtRk9OVC1MSUNFTlNFLnR4dCBmb3IgZGV0YWlscy5MYXRpbk1vZGVybk1hdGgtUmVndWxhckxhdGlu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) format("opentype"); font-display: swap; }
+        .math, #challenge-workspace input { font-family: "Latin Modern Math", "Cambria Math", serif; letter-spacing: normal; text-transform: none; }
+        #table-head th, #table-body th, #table-body td, #table-foot th, #table-foot td { padding: .7rem .35rem; }
+        #table-head th { color: white; background: #172554; font-size: .76rem; line-height: 1.2; }
+        #table-head .math { font-size: 1.1rem; }
+        #table-head .freq-fi { background: #233cc2; }
+        #table-head .freq-hi { background: #a91251; }
+        #table-head .freq-p { background: #00684d; }
+        #table-body th { color: #172554; text-align: left; font-size: .84rem; }
+        #table-body td { border-bottom: 2px solid white; font-weight: bold; }
+        #table-body .freq-fi { background: #e0ebff; color: #142b99; }
+        #table-body .freq-hi { background: #ffe0ec; color: #85083d; }
+        #table-body .freq-p { background: #c9f6e5; color: #004f38; }
+        #table-body .active-frequency { background: #ffdf72; color: #352000; outline: 2px solid #be6900; outline-offset: -2px; }
+        #table-foot { background: #172554; color: white; font-weight: bold; }
+        .category-dot { display: inline-block; width: .72rem; height: .72rem; border-radius: 50%; margin-right: .35rem; }
+        .cell-editor { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .25rem; }
+        .cell-editor input { width: 4.2rem; max-width: 100%; padding: .25rem; text-align: center; border: 2px solid #233cc2; border-radius: .55rem; background: white; color: #172554; }
+        .cell-editor button { padding: .27rem .44rem; color: white; background: #233cc2; border-radius: .5rem; font-size: .72rem; font-weight: 900; }
+        .cell-error input { border-color: #b91643; }
+        .angle-card { padding: .65rem; text-align: center; border-radius: 1rem; background: #ddf3ff; color: #082f62; border: 2px solid #38bdf8; font-weight: 800; }
+        .angle-card .cell-editor { margin-top: .35rem; }
+        #complete-modal { max-height: 92vh; }
+        #complete-modal.metallic-celeste { background: linear-gradient(140deg, white, #d9f4ff 40%, #8ad5fb 74%, white); border-color: white; }
+        #complete-modal.perfect-card { box-shadow: 0 0 42px #7dd3fc, inset 0 0 26px white; }
+        #pie-visualizer { background: radial-gradient(circle, #e0f2fe, transparent 73%); }
+        #challenge-enunciado { text-transform: none; letter-spacing: normal; font-size: 1rem; }
+        #challenge-title { font-size: clamp(1.15rem, 2vw, 1.45rem); }
+        #challenges-grid h3 { font-size: 1.05rem; }
+        #challenges-grid p, #pie-legend > div { font-size: .875rem; }
+        #table-head th { font-size: .875rem; }
+        #table-body th, #table-body td, #table-foot td, #table-foot th,
+        #quiz-list p, #final-quiz-list p, #matrix-grid button, #cell-input { font-size: 1rem; }
+        #table-head .freq-ang { background: #713b00; }
+        #table-body .freq-ang { background: #fff0ce; color: #713b00; }
+        #table-body .freq-ang.active-frequency { background: #ffdf72; }
+        .sector-number { display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem; margin-right: .3rem; border-radius: 50%; font-size: .95rem; flex-shrink: 0; vertical-align: middle; }
+        .active-sector-key { outline: 2px solid #713b00; background: #ffebb8; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-violet-600 via-fuchsia-600 to-orange-500 animate-gradient-x text-slate-800 font-fun h-screen w-screen overflow-hidden">
+
+    <div id="app" class="h-full w-full flex flex-col p-2 sm:p-4 relative overflow-hidden">
+        <!-- Fondo Flotante Dinámico -->
+        <div id="floating-bg" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+        <!-- Contenedor de Confeti -->
+        <div id="confetti-container" class="absolute inset-0 pointer-events-none z-[120] flex items-center justify-center overflow-hidden"></div>
+
+        <!-- HEADER GLOBAL VIBRANTE -->
+        <header class="shrink-0 relative z-20 w-full max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-3 bg-white/20 backdrop-blur-md px-4 py-2.5 sm:px-6 sm:py-3 rounded-[2rem] border-2 border-white/40 shadow-xl mb-3">
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <div class="bg-gradient-to-br from-yellow-300 to-amber-500 p-2.5 rounded-2xl shadow-lg border-2 border-yellow-100 transform rotate-3 hover:rotate-0 transition-transform hidden sm:block cursor-pointer" onclick="AudioController.play('pop')">
+                    <i data-lucide="pie-chart" class="text-white w-6 h-6"></i>
+                </div>
+                <div class="flex-1 text-center md:text-left">
+                    <h1 class="text-xl sm:text-2xl font-black text-white drop-shadow-md flex items-center justify-center md:justify-start gap-2">
+                        Laboratorio <span class="bg-indigo-600/90 backdrop-blur-sm text-yellow-300 px-3 py-0.5 rounded-xl text-sm sm:text-base border-2 border-indigo-300 shadow-sm">Estadístico</span>
+                    </h1>
+                    <p class="text-[10px] sm:text-xs text-yellow-100 font-extrabold uppercase tracking-widest mt-0.5 drop-shadow">Secundaria • TuProfe20 MathLab</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 items-center justify-center w-full md:w-auto">
+                <div class="flex items-center gap-2 bg-emerald-500/90 backdrop-blur-md px-4 py-1.5 rounded-xl border-2 border-emerald-200 text-white font-black shadow-lg">
+                    <i data-lucide="award" class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-300 fill-yellow-300"></i> <span id="score-display">0/10</span> Completados
+                </div>
+                <button onclick="toggleMute()" onmouseenter="AudioController.play('hover')" class="p-2 sm:p-2.5 rounded-xl bg-white/25 border-2 border-white/40 text-white hover:bg-white/40 transition-all hover:scale-110 active:scale-95 shadow-md">
+                    <i id="mute-icon" data-lucide="volume-2" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTAINER -->
+        <main class="w-full max-w-[1400px] mx-auto flex-1 flex flex-col relative z-10 bg-white/15 backdrop-blur-xl rounded-[2.5rem] border-2 border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden">
+            
+            <!-- TOP NAV -->
+            <div id="top-nav" class="hidden w-full bg-white/25 backdrop-blur-md border-b-2 border-white/30 px-4 py-2.5 flex items-center justify-between shrink-0">
+                <button onclick="navBack()" onmouseenter="AudioController.play('hover')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 border-b-[4px] border-indigo-800 text-white font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-indigo-500 hover:-translate-y-0.5 active:translate-y-1 active:border-b-0 transition-all shadow-md">
+                    <i id="nav-icon" data-lucide="home" class="w-4 h-4"></i> <span id="nav-text">Salir</span>
+                </button>
+                <div id="reward-badge" class="hidden px-4 py-1.5 rounded-xl border-2 bg-white/90 border-indigo-200 text-indigo-900 shadow-md flex items-center gap-3">
+                    <div class="flex items-center gap-1.5 border-r-2 border-slate-200 pr-3">
+                        <i data-lucide="user" class="w-4 h-4 text-indigo-500"></i>
+                        <span id="nav-player-name" class="text-xs sm:text-sm font-black truncate max-w-[120px] uppercase"></span>
+                    </div>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-500 hidden sm:inline">Puntaje:</span>
+                    <span class="text-sm sm:text-base font-black flex items-center gap-1 text-amber-600">
+                        <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500 animate-spin" style="animation-duration: 6s;"></i> 
+                        <span id="live-score-badge" class="math">1000</span> PTS
+                    </span>
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col overflow-hidden relative">
+                
+                <!-- VIEW 1: MAP (PANEL DE 10 PRÁCTICAS) -->
+                <div id="view-map" class="flex-1 flex flex-col p-4 sm:p-6 md:p-8 overflow-y-auto relative custom-scrollbar">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl sm:text-4xl font-black text-white drop-shadow-md uppercase tracking-wider">
+                            ✨ Retos Estadísticos ✨
+                        </h2>
+                        <p class="text-yellow-100 font-bold text-xs sm:text-sm mt-2">Nivel Secundaria: Ingresa tu nombre en la actividad y gana tus puntos al completarla.</p>
+                    </div>
+                    
+                    <div id="challenges-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8 w-full max-w-[1300px] mx-auto px-2">
+                        <!-- Tarjetas de desafío inyectadas por JS -->
+                    </div>
+
+                    <div class="flex justify-center pb-6 mt-auto">
+                        <button id="btn-report" onclick="showResult()" onmouseenter="AudioController.play('hover')" class="hidden metallic-gold px-8 py-4 rounded-2xl font-black text-lg sm:text-xl transition-all duration-300 flex items-center gap-3 hover:brightness-110 border-b-[6px] border-yellow-700 shadow-2xl active:border-b-0 active:translate-y-[6px] uppercase tracking-wider animate-bounce">
+                            <i data-lucide="award" class="w-7 h-7"></i> Ver Reporte Global <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- VIEW 2: CHALLENGE WORKSPACE -->
+                <div id="view-challenge" class="hidden flex-1 flex flex-col p-3 sm:p-4 relative overflow-y-auto w-full pb-6 bg-gradient-to-br from-indigo-600/30 to-fuchsia-600/30 custom-scrollbar">
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-between mb-3 bg-white/20 backdrop-blur-md border-2 border-white/40 shadow-lg p-3 sm:px-5 rounded-2xl gap-3 w-full max-w-7xl mx-auto">
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <div class="text-center sm:text-left">
+                                <h4 id="challenge-enunciado" class="text-yellow-300 font-black uppercase text-[10px] sm:text-xs tracking-widest drop-shadow leading-snug break-words"></h4>
+                                <h2 id="challenge-title" class="text-base sm:text-xl font-black text-white uppercase tracking-wide drop-shadow-md"></h2>
+                            </div>
+                        </div>
+                        <div class="bg-indigo-900/60 border border-indigo-300/50 px-3 py-1.5 rounded-xl text-white text-[10px] sm:text-xs font-bold flex items-center gap-2 shrink-0">
+                            <i data-lucide="zap" class="w-4 h-4 text-rose-400 fill-rose-400"></i>
+                            <span>Meta: <strong><span class="math">1000</span> PTS</strong> (<span class="math">−100</span> PTS por error)</span>
+                        </div>
+                    </div>
+
+                    <div id="challenge-workspace" class="flex-1 flex flex-col items-center w-full relative max-w-7xl mx-auto transition-all duration-500 opacity-100">
+                        <div class="flex flex-col xl:flex-row w-full gap-4 items-stretch flex-1">
+                            
+                            <!-- PANEL IZQUIERDO: Escáner / Quiz / Pie -->
+                            <div class="w-full xl:w-[42%] flex flex-col min-h-[36vh] xl:min-h-0">
+                                
+                                <!-- ETAPA 1: Matriz de Datos -->
+                                <div id="panel-matrix" class="bg-white/95 backdrop-blur-3xl p-4 sm:p-5 rounded-[2rem] border-4 border-white shadow-2xl flex flex-col h-full w-full relative overflow-hidden flex-1">
+                                    <div class="flex justify-between items-center mb-3 sm:mb-4">
+                                        <h4 class="text-indigo-600 font-black uppercase tracking-wider flex items-center gap-2 text-xs sm:text-sm bg-indigo-50 px-3.5 py-1.5 rounded-xl border-2 border-indigo-100">
+                                            <i data-lucide="grip" class="w-4 h-4 text-indigo-500"></i> Escáner de Datos
+                                        </h4>
+                                        <span id="matrix-n" class="bg-gradient-to-r from-amber-400 to-orange-500 text-white px-4 py-1.5 rounded-xl font-black shadow-md text-base sm:text-xl transform rotate-2"></span>
+                                    </div>
+                                    <div id="matrix-grid" class="grid gap-1 mb-1 flex-1 content-start z-10 h-full overflow-y-auto pr-1 custom-scrollbar">
+                                        <!-- Botones inyectados -->
+                                    </div>
+                                </div>
+
+                                <!-- ETAPA 2: Cuestionario Básico -->
+                                <div id="panel-quiz" class="hidden bg-white/95 backdrop-blur-3xl p-5 sm:p-6 rounded-[2rem] border-4 border-white shadow-2xl flex flex-col h-full w-full relative overflow-y-auto custom-scrollbar flex-1 animate-slideInRight">
+                                    <h3 class="text-base sm:text-lg font-black text-indigo-600 mb-4 flex items-center gap-2.5 uppercase tracking-wider border-b-4 border-indigo-50 pb-3">
+                                        <i data-lucide="file-question" class="w-6 h-6 text-amber-500"></i> Análisis de Frecuencias
+                                    </h3>
+                                    <div id="quiz-list" class="flex flex-col gap-3.5 flex-1">
+                                        <!-- Preguntas inyectadas -->
+                                    </div>
+                                </div>
+
+                                <!-- ETAPA 3 y 4: Gráfico Circular Dinámico -->
+                                <div id="panel-pie" class="hidden bg-white/95 backdrop-blur-3xl p-4 sm:p-5 rounded-[2rem] border-4 border-white shadow-2xl flex flex-col h-full w-full relative overflow-y-auto custom-scrollbar flex-1 animate-slideInRight">
+                                    <h3 class="text-base sm:text-lg font-black text-indigo-600 mb-2 flex items-center gap-2.5 uppercase tracking-wider border-b-4 border-indigo-50 pb-2">
+                                        <i data-lucide="pie-chart" class="w-6 h-6 text-emerald-500"></i> Gráfico circular <span class="math">360°</span>
+                                    </h3>
+                                    <div class="flex-1 flex flex-col items-center justify-center gap-3">
+                                        <div id="sector-guide" class="w-full"></div>
+                                        <!-- Visualizador SVG -->
+                                        <div class="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center shrink-0" id="pie-visualizer">
+                                            <!-- SVG inyectado dinámicamente -->
+                                        </div>
+                                        <!-- Leyenda -->
+                                        <div id="pie-legend" class="flex flex-wrap justify-center gap-1.5 px-2 w-full"></div>
+                                        
+                                        <!-- Cuestionario Final (Etapa 4) -->
+                                        <div id="final-quiz-list" class="hidden flex flex-col gap-3 w-full mt-2 animate-fadeIn border-t-2 border-dashed border-indigo-100 pt-3">
+                                            <!-- Preguntas inyectadas -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- PANEL DERECHO: Tabla de Frecuencias -->
+                            <div class="w-full xl:w-[58%] flex flex-col">
+                                <div class="relative w-full h-full p-4 sm:p-5 bg-white/95 backdrop-blur-3xl border-4 border-white rounded-[2rem] shadow-2xl flex flex-col items-center">
+                                    <h3 class="text-base sm:text-lg font-black text-white uppercase tracking-widest mb-3 flex items-center justify-center gap-2.5 bg-gradient-to-r from-violet-600 via-indigo-600 to-blue-600 px-6 py-2.5 rounded-2xl w-full text-center shadow-md">
+                                        <i data-lucide="table-2" class="text-yellow-300 w-5 h-5"></i> Tabla de distribución de frecuencias
+                                    </h3>
+                                    <div class="w-full overflow-x-auto rounded-2xl border-2 border-slate-100 bg-white flex-1 flex flex-col shadow-inner custom-scrollbar relative">
+                                        <table class="w-full text-center border-collapse h-full min-w-[315px]">
+                                            <thead id="table-head"></thead>
+                                            <tbody id="table-body"></tbody>
+                                            <tfoot id="table-foot"></tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW 3: RESULTADO GLOBAL -->
+                <div id="view-result" class="hidden flex-1 flex flex-col items-center justify-center p-4 sm:p-6 text-center relative overflow-y-auto h-full">
+                    <div id="result-modal" class="relative w-full max-w-2xl p-8 sm:p-12 rounded-[3rem] flex flex-col items-center justify-center shadow-2xl animate-jellyPop metallic-gold">
+                        <div class="absolute inset-0 rounded-[3rem] bg-gradient-to-tr from-white/0 via-white/50 to-white/0 opacity-60 pointer-events-none"></div>
+                        <i id="result-icon" data-lucide="award" class="relative z-10 w-20 h-20 sm:w-24 sm:h-24 text-yellow-900 mb-3 drop-shadow-lg"></i>
+                        <div class="relative z-10 bg-white/50 backdrop-blur-md border-2 border-white px-5 py-1.5 rounded-full mb-3 shadow-sm font-black text-xs sm:text-sm uppercase tracking-widest text-yellow-950">
+                            REPORTE FINAL DE LA CLASE
+                        </div>
+                        <h1 class="relative z-10 text-2xl sm:text-4xl font-black mb-6 uppercase tracking-wider break-words w-full metallic-text-gold text-yellow-950">ESTADÍSTICA INTERACTIVA</h1>
+                        
+                        <div class="relative z-10 bg-black/10 backdrop-blur-md border-2 border-yellow-700/30 shadow-inner p-6 sm:p-8 rounded-[2rem] mb-8 w-full transform -rotate-1">
+                            <h3 class="font-black uppercase tracking-widest mb-2 text-xs sm:text-sm text-yellow-950 border-b border-yellow-900/20 pb-2">PUNTAJE GLOBAL ACUMULADO POR TODOS</h3>
+                            <div class="flex flex-col sm:flex-row justify-center items-center sm:items-baseline gap-2 mt-3">
+                                <p id="result-score" class="text-5xl sm:text-7xl font-black drop-shadow-md text-yellow-950">0</p>
+                                <span class="text-xl sm:text-2xl font-black text-yellow-900/70">/ <span class="math">10 000</span> PUNTOS</span>
+                            </div>
+                        </div>
+                        <div class="relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+                            <button onclick="downloadReport()" onmouseenter="AudioController.play('hover')" class="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 border-b-[6px] font-black text-sm sm:text-base rounded-2xl transition-all shadow-xl active:border-b-0 active:translate-y-[6px] uppercase tracking-wider hover:brightness-110 bg-slate-900 border-black text-yellow-400">
+                                <i data-lucide="download" class="w-5 h-5"></i> Descargar Reporte
+                            </button>
+                            <button onclick="resetGame()" onmouseenter="AudioController.play('hover')" class="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 bg-white/60 border-b-[6px] border-white font-black text-sm sm:text-base rounded-2xl transition-all shadow-lg active:border-b-0 active:translate-y-[6px] hover:bg-white/80 text-yellow-950 uppercase tracking-wider">
+                                <i data-lucide="rotate-ccw" class="w-5 h-5"></i> Reiniciar Laboratorio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FOOTER ROBOT ANIMADO Y COLORIDO -->
+            <footer class="shrink-0 bg-white/95 backdrop-blur-3xl w-full px-4 py-2.5 sm:px-8 sm:py-3.5 flex items-center gap-4 sm:gap-7 border-t-[4px] border-white z-20 shadow-[0_-10px_30px_rgba(0,0,0,0.15)]">
+                <div id="robot-container" onclick="pokeRobot()" class="shrink-0 absolute -top-16 sm:relative sm:-top-0 left-3 sm:left-0 drop-shadow-xl scale-90 sm:scale-100 relative flex flex-col items-center cursor-pointer hover:scale-110 transition-transform animate-robotFloat">
+                    <div class="relative z-0 flex flex-col items-center translate-y-1">
+                        <div id="robot-antenna" class="w-4 h-4 rounded-full shadow-[0_0_14px_currentColor] z-10 transition-colors duration-300 text-yellow-400 bg-yellow-400 animate-pulse border-2 border-white"></div>
+                        <div class="w-1.5 h-4 bg-indigo-400 rounded-full"></div>
+                    </div>
+                    <div class="relative z-10 w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-white via-indigo-50 to-indigo-200 rounded-[1.8rem] border-[4px] border-indigo-400 shadow-xl flex flex-col items-center justify-center p-2 transition-transform duration-300">
+                        <div class="w-full h-full bg-slate-900 rounded-2xl flex flex-col items-center justify-center p-1.5 shadow-inner border-2 border-indigo-500/40 relative overflow-hidden">
+                            <div id="robot-eyes" class="w-full flex justify-between px-2">
+                                <div class="w-4 h-4 bg-yellow-400 rounded-full animate-bounce shadow-[0_0_8px_#facc15]"></div>
+                                <div class="w-4 h-4 bg-yellow-400 rounded-full animate-bounce shadow-[0_0_8px_#facc15]"></div>
+                            </div>
+                            <div id="robot-mouth-wrap" class="mt-1.5 flex items-center justify-center">
+                                <div class="w-5 h-3.5 bg-rose-400 rounded-b-full animate-pulse shadow-[0_0_6px_#fb7185]"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="robot-arm-l" class="absolute top-1/2 -left-3 w-4 h-7 bg-amber-400 border-[3px] border-indigo-500 rounded-full z-0 origin-top transition-transform duration-300 animate-robotTalkArmL"></div>
+                    <div id="robot-arm-r" class="absolute top-1/2 -right-3 w-4 h-7 bg-amber-400 border-[3px] border-indigo-500 rounded-full z-0 origin-top transition-transform duration-300 animate-robotTalkArmR"></div>
+                </div>
+                
+                <div class="flex-1 text-sm sm:text-lg font-extrabold text-indigo-950 leading-snug ml-16 sm:ml-0 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 p-3 sm:p-4 rounded-2xl border-2 border-indigo-200 min-h-[3.8rem] sm:min-h-[4.5rem] flex items-center shadow-inner relative">
+                    <div id="bot-msg-wrapper" class="animate-slideInRight w-full">
+                        <p id="bot-msg" class="text-indigo-900 drop-shadow-sm">
+                            ¡Hola estudiante! Haz clic en cualquier reto del mapa para ingresar tu nombre y ganar hasta 1,000 puntos resolviendo el análisis estadístico.
+                        </p>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- OVERLAY DE NIVEL COMPLETADO -->
+    <div id="overlay-complete" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-md animate-fadeIn">
+        <div id="complete-glow" class="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
+            <div id="complete-glow-color" class="w-full h-full bg-yellow-400/25 animate-ping rounded-full blur-3xl max-w-xl max-h-xl"></div>
+        </div>
+        
+        <div id="complete-modal" class="w-full max-w-2xl p-6 sm:p-10 rounded-[3rem] flex flex-col items-center justify-center text-center animate-jellyPop overflow-y-auto shadow-2xl relative metallic-gold z-10">
+            <div class="absolute inset-0 rounded-[3rem] bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-70 pointer-events-none"></div>
+            
+            <div id="complete-badge" class="relative z-10 text-yellow-900 bg-white/50 border-yellow-200 px-6 py-2 rounded-full mb-4 border-2 shadow-sm backdrop-blur-sm">
+                <h4 id="complete-title" class="font-black uppercase tracking-widest flex items-center justify-center gap-2 text-base sm:text-xl metallic-text-gold text-yellow-900">
+                    <i data-lucide="award" class="w-6 h-6"></i> ¡DESAFÍO SUPERADO!
+                </h4>
+            </div>
+
+            <h2 id="complete-student-heading" class="relative z-10 text-3xl sm:text-5xl font-black mb-2 leading-tight uppercase metallic-text-gold text-yellow-950">
+                ¡Excelente, <span id="complete-name"></span>!
+            </h2>
+
+            <p id="complete-desc" class="relative z-10 text-sm sm:text-lg font-extrabold mb-6 uppercase tracking-wider text-yellow-900/90">
+                Completaste la tabla, los ángulos, el gráfico y el análisis final.
+            </p>
+            
+            <div id="complete-score-box" class="relative z-10 px-8 py-4 rounded-[2rem] border-b-[6px] mb-8 shadow-2xl transform rotate-1 bg-white/70 border-white text-yellow-900">
+                <span class="text-xs sm:text-sm font-black uppercase tracking-widest block mb-1 opacity-80">Puntaje Obtenido</span>
+                <span id="complete-score" class="text-4xl sm:text-6xl font-black flex items-center justify-center gap-2">1000 PUNTOS</span>
+            </div>
+            
+            <button onclick="navBack()" onmouseenter="AudioController.play('hover')" id="complete-btn" class="relative z-10 px-8 py-4 font-black text-lg sm:text-xl rounded-2xl transition-all flex items-center gap-3 border-b-[6px] shadow-2xl active:border-b-0 active:translate-y-[6px] uppercase tracking-wider hover:brightness-110 bg-slate-900 border-black text-yellow-400">
+                Regresar al Mapa <i data-lucide="map" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Helper seguro para renderizar iconos
+        function safeIcons() {
+            try {
+                if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                    window.lucide.createIcons();
+                }
+            } catch (e) {
+                console.warn("Lucide icons error:", e);
+            }
+        }
+
+        // ==========================================
+        // MOTOR DE AUDIO INTERACTIVO ENRIQUECIDO
+        // ==========================================
+        const AudioController = {
+            ctx: null, muted: false,
+            init: function() {
+                if (this.ctx) return;
+                try {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                } catch(e) { console.warn("Audio blocked"); }
+            },
+            play: function(type) {
+                try {
+                    this.init();
+                    if (this.muted || !this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    const now = this.ctx.currentTime;
+
+                    if (type === 'hover') {
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(320, now);
+                        osc.frequency.exponentialRampToValueAtTime(420, now + 0.04);
+                        gain.gain.setValueAtTime(0.05, now);
+                        gain.gain.exponentialRampToValueAtTime(0.005, now + 0.04);
+                        osc.start(now); osc.stop(now + 0.04);
+                    } else if (type === 'type') {
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(500 + Math.random() * 150, now);
+                        gain.gain.setValueAtTime(0.08, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.03);
+                        osc.start(now); osc.stop(now + 0.03);
+                    } else if (type === 'pop' || type === 'correct') {
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(480, now);
+                        osc.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+                        gain.gain.setValueAtTime(0.3, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+                        osc.start(now); osc.stop(now + 0.12);
+                    } else if (type === 'swoosh') {
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(280, now);
+                        osc.frequency.exponentialRampToValueAtTime(60, now + 0.18);
+                        gain.gain.setValueAtTime(0.25, now);
+                        gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
+                        osc.start(now); osc.stop(now + 0.18);
+                    } else if (type === 'wrong') {
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(520, now);
+                        osc.frequency.exponentialRampToValueAtTime(200, now + 0.18);
+                        gain.gain.setValueAtTime(0.25, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+                        osc.start(now); osc.stop(now + 0.18);
+                    } else if (type === 'levelUp') {
+                        osc.type = 'square';
+                        osc.frequency.setValueAtTime(440, now);
+                        osc.frequency.setValueAtTime(587.33, now + 0.1);
+                        osc.frequency.setValueAtTime(880, now + 0.2);
+                        osc.frequency.setValueAtTime(1174.66, now + 0.3);
+                        gain.gain.setValueAtTime(0.12, now);
+                        gain.gain.linearRampToValueAtTime(0, now + 0.55);
+                        osc.start(now); osc.stop(now + 0.55);
+                    } else if (type === 'win') {
+                        osc.disconnect();
+                        const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                        notes.forEach((freq, i) => {
+                            const o = this.ctx.createOscillator();
+                            const g = this.ctx.createGain();
+                            o.type = 'triangle';
+                            o.frequency.value = freq;
+                            o.connect(g); g.connect(this.ctx.destination);
+                            const startTime = now + (i * 0.08);
+                            g.gain.setValueAtTime(0, startTime);
+                            g.gain.linearRampToValueAtTime(0.22, startTime + 0.04);
+                            g.gain.linearRampToValueAtTime(0, startTime + 0.45);
+                            o.start(startTime); o.stop(startTime + 0.45);
+                        });
+                    }
+                } catch (e) { console.warn("Audio play error", e); }
+            },
+            toggleMute: function() { this.muted = !this.muted; return this.muted; }
+        };
+
+        const CAT_COLORS = ['#d61254', '#075bd8', '#ffb000', '#008355'];
+        
+        // Utilidad para generar datos brutos mezclados
+        function generateRawData(counts, values) {
+            let res = [];
+            for (let i = 0; i < counts.length; i++) {
+                for (let j = 0; j < counts[i]; j++) res.push(values[i]);
+            }
+            // Mezcla determinista-aleatoria
+            for (let i = res.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [res[i], res[j]] = [res[j], res[i]];
+            }
+            return res;
+        }
+
+        // ==========================================
+        // 10 RETOS ESTADÍSTICOS (Secundaria: 2x20, 2x25, 3x50, 3x125)
+        // ==========================================
+        const CARD_IMAGES = ['https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=600&q=80'];
+
+        // Datos simulados para situaciones cotidianas de secundaria.
+        const scenarios = [
+            ['Videos cortos', 'Un grupo de 20 estudiantes anotó cuántos videos cortos vio durante el viaje de regreso del colegio. Cada número representa a un estudiante.', [2,4,6,8], 'videos', [3,8,6,3]],
+            ['Partidas en línea', 'En un torneo escolar de videojuegos, 20 participantes registraron cuántas partidas completaron durante la primera ronda.', [1,2,3,4], 'partidas', [4,7,6,3]],
+            ['Stickers para el chat', 'Para el aniversario del salón, 20 estudiantes crearon stickers para el chat de su equipo. Se registró cuántos diseños entregó cada estudiante.', [2,3,4,5], 'stickers', [5,6,7,2]],
+            ['Episodios en streaming', 'Al volver del fin de semana, 25 estudiantes apuntaron cuántos episodios de una serie vieron entre el sábado y el domingo.', [1,2,3,4], 'episodios', [6,9,7,3]],
+            ['Deporte en el recreo', 'Durante una semana de clases, 25 estudiantes registraron en cuántos recreos se unieron a un partido en el patio.', [1,2,3,4], 'recreos', [4,7,9,5]],
+            ['Minutos de práctica digital', 'Para ensayar vocabulario, 25 jóvenes usaron una app de idiomas después de clases. La app registró los minutos de su sesión.', [5,10,15,20], 'minutos', [3,10,8,4]],
+            ['Ahorro para la feria', 'Antes de la feria escolar, 50 estudiantes registraron en soles cuánto apartaron esa semana para sus compras en la feria.', [2,4,6,8], 'soles', [8,19,15,8]],
+            ['Canciones para la promoción', 'Para armar la lista musical de una actividad escolar, 50 estudiantes enviaron sus propuestas. Se contó cuántas canciones sugirió cada persona.', [1,2,3,4], 'canciones', [11,17,13,9]],
+            ['Fotos para un carrusel', 'En un taller de fotografía con celular, 50 participantes enviaron sus mejores tomas para un carrusel del colegio. Se registró cuántas fotos envió cada uno.', [2,4,6,8], 'fotos', [12,16,14,8]],
+            ['Retos de programación', 'En una jornada del club de tecnología, 50 estudiantes probaron un juego de programación por bloques. Se registró cuántos retos superó cada uno.', [1,2,3,4], 'retos', [7,14,18,11]]
+        ];
+
+        const CHALLENGES = scenarios.map(([title, enunciado, values, unit, counts], index) => {
+            const n = counts.reduce((sum, count) => sum + count, 0);
+            const singular = { partidas: 'partida', episodios: 'episodio', recreos: 'recreo', canciones: 'canción', retos: 'reto' };
+            const categories = values.map(raw => ({ raw, label: raw + ' ' + (raw === 1 ? singular[unit] : unit) }));
+            const correctTable = counts.map(fi => ({
+                fi, hi: fi / n, p: Math.round(100 * fi / n), ang: Number((360 * fi / n).toFixed(1))
+            }));
+            const largest = counts.indexOf(Math.max(...counts));
+            return {
+                id: 'ej_' + (index + 1), title, enunciado, n, points: 1000,
+                imageUrl: CARD_IMAGES[index],
+                categories, correctTable,
+                rawData: generateRawData(counts, values),
+                angles: correctTable.map(row => row.ang),
+                quiz: [
+                    { q: `¿Cuántos registraron exactamente ${categories[1].label}?`, a: counts[1] },
+                    { q: `¿Qué porcentaje registró exactamente ${categories[2].label}?`, a: correctTable[2].p },
+                    { q: `¿Cuántos registraron ${categories[2].label} o más?`, a: counts[2] + counts[3] },
+                    { q: `¿Qué porcentaje registró menos de ${categories[2].label}?`, a: correctTable[0].p + correctTable[1].p }
+                ],
+                pieQuiz: [
+                    { q: `¿Cuántos grados mide el sector de ${categories[0].label}?`, a: correctTable[0].ang },
+                    { q: '¿Qué porcentaje del círculo ocupa el sector más grande?', a: correctTable[largest].p }
+                ]
+            };
+        });
+
+        let state = {
+            view: 'map', playerName: '',
+            completedChallenges: [], gameScores: {}, 
+            currentChallengeIdx: 0, pendingChallengeIdx: null,
+            botMsg: "¡Hola! Soy tu asistente virtual.",
+            botThinking: false, botHappy: false, botTalking: true,
+            currentPhase: 'table', // 'table', 'quiz', 'angle', 'pie_quiz'
+            tableState: [], activeCell: {r:0, c:''}, foundItems: [], 
+            inputValue: "", cellError: null, 
+            quizAnswers: [], quizStatus: [], 
+            pieRevealed: [], pieQuizAnswers: [], pieQuizStatus: [],
+            gameScore: 1000
+        };
+
+        const math = value => `<span class="math">${value}</span>`;
+        const number = value => String(value).replace('.', ',');
+        const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        })[character]);
+        const mathText = value => escapeHtml(value).replace(
+            /\b(?:[fh]i%?|xi|n\s*=\s*\d+)|[−-]?\d+(?:[.,]\d+)?[%°]?/g,
+            token => math(token.replace(/^([fhx])i/, '$1ᵢ'))
+        );
+
+        function checkValueMatch(input, expected, suffix = '') {
+            const clean = String(input).trim().replace(
+                suffix === '%' ? /\s*%$/ : suffix === '°' ? /\s*°$/ : /$^/,
+                ''
+            ).replace(',', '.');
+            return /^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/.test(clean)
+                && Math.abs(Number(clean) - expected) < 1e-9;
+        }
+
+        function penalize(message) {
+            AudioController.play('wrong');
+            state.gameScore = Math.max(0, state.gameScore - 100);
+            updateLiveScoreBadge();
+            setBotState(`¡Ups! ${message} Penalización por error: −100 puntos. Puntaje: ${state.gameScore}.`, true);
+        }
+
+        function initFloatingBackground() {
+            const symbols = ['📊', '📉', '∑', '%', 'fi', 'hi', '✨', '🧠', '°', 'α', '🎯'];
+            const container = document.getElementById('floating-bg');
+            container.innerHTML = '';
+            for (let i = 0; i < 32; i++) {
+                const el = document.createElement('div');
+                el.className = "absolute text-white font-black animate-floatUp select-none drop-shadow-lg";
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                el.style.left = `${Math.random() * 100}%`;
+                el.style.bottom = '-15%';
+                el.style.fontSize = `${1.2 + Math.random() * 2.5}rem`;
+                el.style.opacity = `${0.12 + Math.random() * 0.22}`;
+                el.style.animationDuration = `${10 + Math.random() * 14}s`;
+                el.style.animationDelay = `-${Math.random() * 20}s`;
+                container.appendChild(el);
+            }
+        }
+
+        function pokeRobot() {
+            AudioController.play('levelUp');
+            setBotState(`¡Análisis de datos activo! La estadística nos permite entender mejor nuestro entorno.`, false, true, true);
+        }
+
+        function setBotState(msg, isThinking=false, isHappy=false, isTalking=true) {
+            state.botMsg = msg;
+            
+            const container = document.getElementById('robot-container');
+            const antenna = document.getElementById('robot-antenna');
+            const eyes = document.getElementById('robot-eyes');
+            const mouthWrap = document.getElementById('robot-mouth-wrap');
+            const armL = document.getElementById('robot-arm-l');
+            const armR = document.getElementById('robot-arm-r');
+            
+            container.className = `shrink-0 absolute -top-16 sm:relative sm:-top-0 left-3 sm:left-0 drop-shadow-xl scale-90 sm:scale-100 relative flex flex-col items-center cursor-pointer hover:scale-110 transition-transform ${isThinking ? 'animate-robotThinkTilt' : isHappy ? 'animate-robotJump' : 'animate-robotFloat'}`;
+            antenna.className = `w-4 h-4 rounded-full shadow-[0_0_14px_currentColor] z-10 transition-colors duration-300 border-2 border-white ${isHappy ? 'text-emerald-400 bg-emerald-400' : isThinking ? 'text-amber-500 bg-amber-500 animate-ping' : 'text-yellow-400 bg-yellow-400 animate-pulse'}`;
+            armL.className = `absolute top-1/2 -left-3 w-4 h-7 bg-amber-400 border-[3px] border-indigo-500 rounded-full z-0 origin-top transition-transform duration-300 ${isThinking ? 'rotate-[135deg]' : isHappy ? 'rotate-[150deg] animate-pulse' : isTalking ? 'animate-robotTalkArmL' : 'rotate-45'}`;
+            armR.className = `absolute top-1/2 -right-3 w-4 h-7 bg-amber-400 border-[3px] border-indigo-500 rounded-full z-0 origin-top transition-transform duration-300 ${isThinking ? '-rotate-45' : isHappy ? '-rotate-[150deg] animate-pulse' : isTalking ? 'animate-robotTalkArmR' : '-rotate-45'}`;
+
+            if (isThinking) {
+                eyes.innerHTML = '<div class="w-3.5 h-1.5 bg-amber-400 rounded-full mt-2 rotate-[18deg]"></div><div class="w-3.5 h-1.5 bg-amber-400 rounded-full mt-2 -rotate-[18deg]"></div>';
+                mouthWrap.innerHTML = '<div class="w-3 h-3 bg-amber-300 rounded-full mt-1.5 translate-x-1"></div>';
+            } else if (isHappy) {
+                eyes.innerHTML = '<div class="w-4 h-2.5 bg-emerald-400 rounded-t-full mt-1 shadow-[0_0_8px_#34d399]"></div><div class="w-4 h-2.5 bg-emerald-400 rounded-t-full mt-1 shadow-[0_0_8px_#34d399]"></div>';
+                mouthWrap.innerHTML = '<div class="w-7 h-4 bg-rose-400 rounded-b-full mt-1 shadow-[0_0_8px_#fb7185]"></div>';
+            } else {
+                eyes.innerHTML = '<div class="w-4 h-4 bg-yellow-400 rounded-full animate-bounce shadow-[0_0_8px_#facc15]"></div><div class="w-4 h-4 bg-yellow-400 rounded-full animate-bounce shadow-[0_0_8px_#facc15]"></div>';
+                mouthWrap.innerHTML = '<div class="w-5 h-3.5 bg-rose-400 rounded-b-full animate-pulse shadow-[0_0_6px_#fb7185]"></div>';
+            }
+
+            const msgEl = document.getElementById('bot-msg');
+            const msgWrap = document.getElementById('bot-msg-wrapper');
+            msgEl.innerHTML = mathText(msg);
+            msgEl.className = (msg.includes('Ups') || msg.includes('descontado')) ? 'text-rose-600 drop-shadow-sm font-black' : 'text-indigo-950 drop-shadow-sm';
+            
+            msgWrap.classList.remove('animate-slideInRight');
+            void msgWrap.offsetWidth;
+            msgWrap.classList.add('animate-slideInRight');
+        }
+
+        function toggleMute() {
+            const muted = AudioController.toggleMute();
+            const icon = document.getElementById('mute-icon');
+            if (icon) icon.setAttribute('data-lucide', muted ? 'volume-x' : 'volume-2');
+            safeIcons();
+        }
+
+        function changeView(newView) {
+            ['map', 'challenge', 'result'].forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById(`view-${newView}`);
+            if (target) target.classList.remove('hidden');
+            state.view = newView;
+
+            if (newView === 'challenge') {
+                document.getElementById('top-nav').classList.remove('hidden');
+                document.getElementById('nav-text').innerText = 'Volver al Mapa';
+                document.getElementById('reward-badge').classList.remove('hidden');
+                document.getElementById('nav-player-name').innerText = state.playerName;
+            } else {
+                document.getElementById('top-nav').classList.add('hidden');
+                document.getElementById('reward-badge').classList.add('hidden');
+            }
+
+            if(newView === 'map') renderMap();
+            if(newView === 'challenge') renderChallenge();
+            
+            safeIcons();
+        }
+
+        function navBack() {
+            AudioController.play('swoosh');
+            document.getElementById('overlay-complete').classList.add('hidden');
+            document.getElementById('confetti-container').innerHTML = '';
+            changeView('map');
+            setBotState("¡Hola estudiante! Ingresa tu nombre en cualquiera de las 10 actividades para resolver.", false, false, true);
+        }
+
+        function renderMap() {
+            const grid = document.getElementById('challenges-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            CHALLENGES.forEach((c, i) => {
+                const isCompleted = state.completedChallenges.includes(c.id);
+                const scoreObj = state.gameScores[c.id];
+                const isPerfect = isCompleted && scoreObj && scoreObj.score === c.points;
+
+                let cardStyle = 'bg-white/15 border-white/30 hover:bg-white/25 hover:-translate-y-1.5 shadow-xl';
+                if (isCompleted) {
+                    cardStyle = isPerfect
+                        ? 'bg-gradient-to-br from-yellow-400/40 via-amber-500/30 to-yellow-600/40 border-yellow-300 shadow-[0_0_25px_rgba(250,204,21,0.5)]'
+                        : 'bg-gradient-to-br from-sky-400/40 via-cyan-500/30 to-blue-600/40 border-sky-300 shadow-[0_0_25px_rgba(56,189,248,0.5)]';
+                }
+
+                const card = document.createElement('div');
+                card.className = `flex flex-col items-stretch rounded-[2rem] transition-all duration-300 text-left relative overflow-hidden group border-[3px] backdrop-blur-2xl ${cardStyle}`;
+
+                let statusBadge = '';
+                if (isCompleted) {
+                    if (isPerfect) {
+                        statusBadge = `
+                            <div class="metallic-gold px-3 py-2 rounded-xl font-black text-xs flex flex-col items-center justify-center gap-0.5 w-full shadow-lg animate-pulse mb-2">
+                                <span class="flex items-center gap-1 text-yellow-950 text-xs sm:text-sm">🏆 ¡${math(scoreObj.score)} PUNTOS! ✨</span>
+                                <span class="text-[10px] uppercase tracking-wider text-yellow-900">Logrado por: ${escapeHtml(scoreObj.player)}</span>
+                            </div>
+                        `;
+                    } else {
+                        statusBadge = `
+                            <div class="metallic-celeste px-3 py-2 rounded-xl font-black text-xs flex flex-col items-center justify-center gap-0.5 w-full shadow-lg mb-2">
+                                <span class="flex items-center gap-1 text-sky-950 text-xs">💪 ${math(scoreObj.score)} PTS (${escapeHtml(scoreObj.player)})</span>
+                                <span class="text-[10px] uppercase tracking-wider text-sky-900 font-extrabold">¡Puedes mejorar tu puntaje!</span>
+                            </div>
+                        `;
+                    }
+                } else {
+                    statusBadge = `
+                        <div class="bg-black/25 border border-white/20 text-yellow-300 px-3 py-1.5 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 w-full mb-2">
+                            ⭐ Premio: ${math(1000)} PTS
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="w-full h-24 sm:h-28 relative shrink-0 cursor-pointer" onclick="startDirectChallenge(${i})">
+                        <img src="${c.imageUrl}" alt="${c.title}" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/4f46e5/ffffff?text=Actividad+${i+1}'" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-indigo-950/90 via-indigo-950/20 to-transparent"></div>
+                        <span class="absolute top-2.5 left-2.5 bg-indigo-600/95 text-yellow-300 font-black text-[10px] uppercase tracking-widest px-2.5 py-1 rounded-full border border-indigo-300 shadow">Reto ${math(i + 1)} · ${math("n = " + c.n)}</span>
+                    </div>
+                    <div class="p-3.5 sm:p-4 flex flex-col flex-1 relative z-10">
+                        <h3 class="text-sm sm:text-base font-black mb-1 leading-tight text-white drop-shadow cursor-pointer" onclick="startDirectChallenge(${i})">${c.title}</h3>
+                        <p class="text-[10px] sm:text-[11px] text-white/90 font-bold leading-snug mb-3 flex-1">${mathText(c.enunciado)}</p>
+                        ${statusBadge}
+                        <div class="flex flex-col gap-2 mt-auto pt-2 border-t border-white/20">
+                            <input id="card-name-${i}" type="text" placeholder="Tu nombre..." value="${scoreObj ? escapeHtml(scoreObj.player) : ''}"
+                                onkeydown="if(event.key==='Enter') startDirectChallenge(${i})"
+                                class="w-full text-center text-xs sm:text-sm font-black bg-white/95 border-2 border-indigo-200 rounded-xl py-1.5 px-2.5 text-indigo-950 placeholder-indigo-400 focus:outline-none focus:border-amber-400 shadow-inner uppercase" maxlength="16" />
+                            <button type="button" onclick="startDirectChallenge(${i})" onmouseenter="AudioController.play('hover')"
+                                class="w-full py-2.5 px-3 rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 hover:brightness-110 text-white border-b-[4px] border-orange-700 active:border-b-0 active:translate-y-[4px] transition-all shadow-lg flex items-center justify-center gap-1.5 cursor-pointer">
+                                🚀 ${isCompleted ? '¡REINTENTAR!' : '¡ENTRAR AHORA!'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            const scoreDisplay = document.getElementById('score-display');
+            if (scoreDisplay) scoreDisplay.innerHTML = math(`${state.completedChallenges.length}/${CHALLENGES.length}`);
+
+            const btnReport = document.getElementById('btn-report');
+            if (btnReport) {
+                if (state.completedChallenges.length > 0) btnReport.classList.remove('hidden');
+                else btnReport.classList.add('hidden');
+            }
+        }
+
+        function startDirectChallenge(idx) {
+            const inputEl = document.getElementById(`card-name-${idx}`);
+            let nameVal = inputEl ? inputEl.value.trim() : '';
+            if (!nameVal) {
+                nameVal = `ESTUDIANTE ${idx + 1}`;
+            }
+            state.playerName = nameVal;
+            state.currentChallengeIdx = idx;
+            AudioController.play('swoosh');
+            initChallenge();
+            changeView('challenge');
+        }
+
+        function initChallenge() {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            state.tableState = c.correctTable.map(() => ({ fi: "", hi: "", p: "", ang: "" }));
+            state.activeCell = { r: 0, c: 'fi' };
+            state.foundItems = [];
+            state.inputValue = "";
+            state.cellError = null;
+            state.currentPhase = 'table';
+            state.quizAnswers = Array(c.quiz.length).fill('');
+            state.quizStatus = Array(c.quiz.length).fill(null);
+            
+            state.pieRevealed = Array(c.categories.length).fill(false);
+            state.pieQuizAnswers = Array(c.pieQuiz.length).fill('');
+            state.pieQuizStatus = Array(c.pieQuiz.length).fill(null);
+            
+            state.gameScore = c.points;
+            updateLiveScoreBadge();
+        }
+
+        function updateLiveScoreBadge() {
+            const el = document.getElementById('live-score-badge');
+            if (el) el.textContent = state.gameScore;
+        }
+
+        function renderChallenge() {
+            const ch = CHALLENGES[state.currentChallengeIdx];
+            document.getElementById('challenge-enunciado').innerHTML = mathText(ch.enunciado);
+            document.getElementById('challenge-title').innerHTML = `Reto ${math(state.currentChallengeIdx + 1)} · ${ch.title}`;
+            document.getElementById('matrix-n').innerHTML = math("n = " + ch.n);
+
+            const ws = document.getElementById('challenge-workspace');
+            ws.className = "flex-1 flex flex-col items-center w-full relative max-w-7xl mx-auto transition-all duration-500 opacity-100 scale-100";
+
+            document.getElementById('panel-matrix').classList.add('hidden');
+            document.getElementById('panel-quiz').classList.add('hidden');
+            document.getElementById('panel-pie').classList.add('hidden');
+            document.getElementById('final-quiz-list').classList.add('hidden');
+
+            if (state.currentPhase === 'table') {
+                document.getElementById('panel-matrix').classList.remove('hidden');
+                const grid = document.getElementById('matrix-grid');
+                
+                // Optimización del grid para n=125
+                const cols = ch.n >= 50 ? 10 : 5;
+                const btnClasses = ch.n >= 100 
+                    ? "min-h-[26px] text-[10px]" 
+                    : "min-h-[34px] sm:min-h-[42px] text-xs sm:text-base";
+                
+                grid.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+                grid.innerHTML = '';
+                
+                ch.rawData.forEach((v, i) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.id = `grid-btn-${i}`;
+                    btn.innerHTML = math(v);
+                    btn.onmouseenter = () => AudioController.play('hover');
+                    btn.onclick = () => handleMatrixClick(i);
+                    grid.appendChild(btn);
+                });
+                updateMatrixGridClasses(btnClasses);
+                updateBotChallengeState();
+            } else if (state.currentPhase === 'quiz') {
+                document.getElementById('panel-quiz').classList.remove('hidden');
+                renderQuiz();
+            } else if (state.currentPhase === 'angle') {
+                document.getElementById('panel-pie').classList.remove('hidden');
+                renderPieChart();
+            } else if (state.currentPhase === 'pie_quiz') {
+                document.getElementById('panel-pie').classList.remove('hidden');
+                document.getElementById('final-quiz-list').classList.remove('hidden');
+                renderPieChart();
+                renderFinalQuiz();
+            }
+
+            renderTable();
+            renderSectorGuide();
+            safeIcons();
+        }
+
+        function updateBotChallengeState() {
+            if (state.currentPhase === 'table') {
+                const c = CHALLENGES[state.currentChallengeIdx];
+                const col = state.activeCell.c;
+                const cat = c.categories[state.activeCell.r];
+                let msg = "";
+                if (col === 'fi') msg = `¡A contar, ${state.playerName}! Haz clic en todos los '${cat.raw}' en el Escáner para hallar su frecuencia absoluta (fi).`;
+                else if (col === 'hi') msg = `Frecuencia Relativa (hi) de "${cat.label}": Divide su frecuencia (fi) entre el total (n=${c.n}).`;
+                else if (col === 'p') msg = `Frecuencia Porcentual (hi%) de "${cat.label}": Multiplica hi por 100.`;
+                setBotState(msg, false, false, true);
+            } else if (state.currentPhase === 'angle') {
+                setBotState(`Calcula el ángulo de cada sector multiplicando su frecuencia relativa (hi) por 360°.`, false, true, true);
+            }
+        }
+
+        function handleMatrixClick(idx) {
+            if (state.activeCell.c !== 'fi' || state.currentPhase !== 'table') {
+                return;
+            }
+            if (state.foundItems.includes(idx)) return;
+
+            const c = CHALLENGES[state.currentChallengeIdx];
+            const targetRawVal = c.categories[state.activeCell.r].raw;
+            const btnClasses = c.n >= 100 ? "min-h-[26px] text-[10px]" : "min-h-[34px] sm:min-h-[42px] text-xs sm:text-base";
+
+            if (c.rawData[idx] === targetRawVal) {
+                AudioController.play('correct');
+                state.foundItems.push(idx);
+                const currentCount = state.foundItems.filter(i => c.rawData[i] === targetRawVal).length;
+                if (currentCount === c.correctTable[state.activeCell.r].fi) {
+                    AudioController.play('levelUp');
+                    state.tableState[state.activeCell.r]['fi'] = currentCount;
+                    moveToNextCell();
+                }
+                updateMatrixGridClasses(btnClasses);
+                renderTable();
+            } else {
+                penalize(`Busca el dato ${targetRawVal}.`);
+                const btn = document.getElementById(`grid-btn-${idx}`);
+                if (btn) {
+                    btn.className = `${btnClasses} rounded-xl font-black flex items-center justify-center transition-all duration-300 select-none border-b-4 bg-rose-500 text-white border-rose-700 animate-wiggle shadow-md`;
+                    setTimeout(() => updateMatrixGridClasses(btnClasses), 500);
+                }
+            }
+        }
+
+        function updateMatrixGridClasses(btnClasses) {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            c.rawData.forEach((v, i) => {
+                const btn = document.getElementById(`grid-btn-${i}`);
+                if (!btn) return;
+                const isFound = state.foundItems.includes(i);
+                if (isFound) {
+                    btn.className = `${btnClasses} rounded-xl font-black flex items-center justify-center transition-all duration-300 select-none border-b-4 bg-amber-400 text-indigo-950 border-amber-600 shadow-lg scale-105 z-10 cursor-pointer`;
+                } else {
+                    btn.className = `${btnClasses} rounded-xl font-black flex items-center justify-center transition-all duration-300 select-none border-b-4 bg-slate-100 text-slate-700 border-slate-300 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-300 hover:-translate-y-0.5 hover:shadow-md active:translate-y-[2px] cursor-pointer`;
+                }
+            });
+        }
+
+        function handleCellSubmit() {
+            if (!state.inputValue.trim() || !['table', 'angle'].includes(state.currentPhase)) return;
+            const c = CHALLENGES[state.currentChallengeIdx];
+            const currentCorrectVal = c.correctTable[state.activeCell.r][state.activeCell.c];
+
+            const suffix = { p: '%', ang: '°' }[state.activeCell.c];
+            if (checkValueMatch(state.inputValue, currentCorrectVal, suffix)) {
+                AudioController.play('correct');
+                state.tableState[state.activeCell.r][state.activeCell.c] = currentCorrectVal;
+                
+                // Animación de aparición de sector si estamos en fase angle
+                if (state.activeCell.c === 'ang') {
+                    state.pieRevealed[state.activeCell.r] = true;
+                    AudioController.play('pop');
+                }
+                
+                setBotState(`¡Cálculo correcto, ${state.playerName}!`, false, true);
+                moveToNextCell();
+            } else {
+                penalize('Revisa tu cálculo e inténtalo de nuevo.');
+                state.cellError = `${state.activeCell.r}-${state.activeCell.c}`;
+                renderTable();
+                document.getElementById('cell-input')?.select();
+            }
+        }
+
+        function moveToNextCell() {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            
+            if (state.currentPhase === 'table') {
+                const colsOrder = ['fi', 'hi', 'p'];
+                for (let col of colsOrder) {
+                    for (let r = 0; r < c.categories.length; r++) {
+                        if (state.tableState[r][col] === "") {
+                            state.activeCell = { r, c: col };
+                            state.inputValue = "";
+                            state.cellError = null;
+                            renderTable();
+                            updateBotChallengeState();
+                            setTimeout(() => document.getElementById('cell-input')?.focus(), 50);
+                            return;
+                        }
+                    }
+                }
+                // Si terminó 'p', pasamos al quiz
+                state.currentPhase = 'quiz';
+                AudioController.play('levelUp');
+                setBotState(`¡Tabla de base completada, ${state.playerName}! Ahora responde las 4 preguntas analizando la tabla.`, false, true);
+                renderChallenge();
+            } else if (state.currentPhase === 'angle') {
+                for (let r = 0; r < c.categories.length; r++) {
+                    if (state.tableState[r]['ang'] === "") {
+                        state.activeCell = { r, c: 'ang' };
+                        state.inputValue = "";
+                        state.cellError = null;
+                        renderTable();
+                        renderSectorGuide();
+                        renderPieChart();
+                        updateBotChallengeState();
+                        setTimeout(() => document.getElementById('cell-input')?.focus(), 50);
+                        return;
+                    }
+                }
+                // Si terminó ángulos, pasa a pie_quiz final
+                state.currentPhase = 'pie_quiz';
+                AudioController.play('levelUp');
+                setBotState(`¡Gráfico circular formado correctamente! Para finalizar, responde estas dos últimas preguntas.`, false, true);
+                renderChallenge();
+            }
+        }
+
+        function cellEditor(label) {
+            const isError = state.cellError === `${state.activeCell.r}-${state.activeCell.c}`;
+            return `
+                <div class="cell-editor ${isError ? 'cell-error' : ''}">
+                    <input id="cell-input" type="text" inputmode="decimal" autocomplete="off"
+                        aria-label="${label}" value="${escapeHtml(state.inputValue)}" placeholder="?"
+                        oninput="AudioController.play('type'); state.inputValue=this.value"
+                        onkeydown="if(event.key==='Enter') handleCellSubmit()">
+                    <button type="button" onclick="handleCellSubmit()">Validar</button>
+                </div>`;
+        }
+
+        function renderSectorGuide() {
+            const entry = document.getElementById('sector-guide');
+            if (!['angle', 'pie_quiz'].includes(state.currentPhase)) {
+                entry.innerHTML = '';
+                return;
+            }
+            const c = CHALLENGES[state.currentChallengeIdx];
+            const row = state.activeCell.r;
+            entry.innerHTML = `
+                <div class="angle-card">
+                    <p>Empieza arriba y avanza en sentido horario, siguiendo la tabla de arriba abajo.</p>
+                    ${state.currentPhase === 'angle' ? `<p><strong>Sector ${math(row + 1)} de ${math(c.categories.length)} · ${mathText(c.categories[row].label)}</strong></p>
+                    <p>${math('αᵢ = hᵢ × 360°')}</p>` : ''}
+                </div>`;
+        }
+
+        function renderTable() {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            const columns = [
+                { key: 'fi', label: 'Frecuencia absoluta', symbol: 'fᵢ' },
+                { key: 'hi', label: 'Frecuencia relativa', symbol: 'hᵢ' },
+                { key: 'p', label: 'Frecuencia relativa porcentual', symbol: 'hᵢ%' }
+            ];
+            const showAngles = ['angle', 'pie_quiz'].includes(state.currentPhase);
+            if (showAngles) columns.push({ key: 'ang', label: 'Ángulo del sector', symbol: 'αᵢ' });
+            document.getElementById('table-head').innerHTML = `
+                <tr><th scope="col">Dato ${math('xᵢ')}</th>
+                    ${columns.map(col => `<th scope="col" class="freq-${col.key}">${col.label} <br>${math(col.symbol)}</th>`).join('')}
+                </tr>`;
+            document.getElementById('table-body').innerHTML = c.categories.map((cat, r) => `
+                <tr>
+                    <th scope="row">${showAngles ? sectorNumber(r) : `<span class="category-dot" style="background:${CAT_COLORS[r]}"></span>`}${mathText(cat.label)}</th>
+                    ${columns.map(col => {
+                        const val = state.tableState[r][col.key];
+                        const active = state.activeCell.r === r && state.activeCell.c === col.key
+                            && (state.currentPhase === 'table' || (state.currentPhase === 'angle' && col.key === 'ang'));
+                        let content = val === '' ? '—' : math(col.key === 'hi' ? number(val.toFixed(2)) : number(val) + ({p: '%', ang: '°'}[col.key] || ''));
+                        if (active) {
+                            content = col.key === 'fi'
+                                ? math(state.foundItems.filter(i => c.rawData[i] === cat.raw).length)
+                                : cellEditor(col.key === 'ang' ? 'Ángulo en grados para ' + cat.label : col.label);
+                        }
+                        return `<td class="freq-${col.key} ${active ? 'active-frequency' : ''}">${content}</td>`;
+                    }).join('')}
+                </tr>`).join('');
+            const complete = state.currentPhase !== 'table';
+            document.getElementById('table-foot').innerHTML = `
+                <tr><th scope="row">Total</th>
+                    <td>${complete ? math(c.n) : '—'}</td>
+                    <td>${complete ? math('1,00') : '—'}</td>
+                    <td>${complete ? math('100%') : '—'}</td>
+                    ${showAngles ? `<td>${state.currentPhase === 'pie_quiz' ? math('360°') : '—'}</td>` : ''}
+                </tr>`;
+        }
+
+        function renderQuiz() {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            const list = document.getElementById('quiz-list');
+            if (!list) return;
+            list.innerHTML = c.quiz.map((q, idx) => {
+                const isCorrect = state.quizStatus[idx] === 'correct';
+                const isWrong = state.quizStatus[idx] === 'wrong';
+                return `
+                <div class="p-3 sm:p-3.5 rounded-2xl border-2 transition-colors shadow-sm ${isCorrect ? 'bg-emerald-50 border-emerald-300' : isWrong ? 'bg-rose-50 border-rose-300 animate-wiggle' : 'bg-slate-50 border-slate-200'}">
+                    <p class="text-xs sm:text-sm font-extrabold mb-2 flex gap-2 leading-snug ${isCorrect ? 'text-emerald-800' : 'text-slate-700'}">
+                        <span class="text-indigo-600 font-black">${math(idx + 1)}.</span> ${mathText(q.q)}
+                    </p>
+                    <div class="flex gap-2">
+                        <input type="text" inputmode="decimal" id="quiz-input-${idx}" value="${escapeHtml(state.quizAnswers[idx])}" oninput="AudioController.play('type'); state.quizAnswers[${idx}]=this.value" onkeydown="if(event.key==='Enter') handleQuizCheck(${idx})" ${isCorrect ? 'disabled' : ''} placeholder="Respuesta..."
+                            class="flex-1 bg-white border-b-[3px] rounded-xl py-1.5 px-3 text-sm sm:text-base font-black text-center focus:outline-none transition-all ${isCorrect ? 'border-emerald-400 text-emerald-600' : isWrong ? 'border-rose-400 text-rose-500' : 'border-slate-300 focus:border-indigo-500 text-indigo-700'}">
+                        ${!isCorrect ?
+                            `<button type="button" onclick="handleQuizCheck(${idx})" onmouseenter="AudioController.play('hover')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-1.5 rounded-xl font-black transition-all border-b-[3px] border-indigo-800 active:border-b-0 active:translate-y-[3px] shadow uppercase text-xs cursor-pointer">Validar</button>`
+                            : `<div class="bg-emerald-100 text-emerald-600 px-4 py-1.5 rounded-xl font-black flex items-center justify-center border-2 border-emerald-300">✓</div>`
+                        }
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function handleQuizCheck(idx) {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            if (state.currentPhase !== 'quiz' || state.quizStatus[idx] === 'correct' || !state.quizAnswers[idx]?.trim()) return;
+            const isCorrect = checkValueMatch(state.quizAnswers[idx], c.quiz[idx].a, c.quiz[idx].q.includes('porcentaje') ? '%' : '');
+
+            if (isCorrect) {
+                AudioController.play('correct');
+                state.quizStatus[idx] = 'correct';
+                renderQuiz();
+                if (state.quizStatus.every(s => s === 'correct')) {
+                    state.currentPhase = 'angle';
+                    AudioController.play('levelUp');
+                    renderChallenge();
+                    moveToNextCell();
+                } else {
+                    setBotState(`¡Respuesta correcta, ${state.playerName}! Continúa analizando.`, false, true);
+                }
+            } else {
+                penalize('Revisa las frecuencias de la tabla.');
+                state.quizStatus[idx] = 'wrong';
+                renderQuiz();
+                document.getElementById(`quiz-input-${idx}`)?.select();
+            }
+        }
+
+        // ==========================================
+        // DIBUJO Y LÓGICA DE GRÁFICO CIRCULAR
+        // ==========================================
+        function polarToCartesian(cx, cy, r, angleInDegrees) {
+            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return { x: cx + (r * Math.cos(angleInRadians)), y: cy + (r * Math.sin(angleInRadians)) };
+        }
+
+        function createSlicePath(cx, cy, r, startAngle, endAngle) {
+            const start = polarToCartesian(cx, cy, r, endAngle);
+            const end = polarToCartesian(cx, cy, r, startAngle);
+            const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+            return ["M", cx, cy, "L", start.x, start.y, "A", r, r, 0, largeArcFlag, 0, end.x, end.y, "Z"].join(" ");
+        }
+
+        function sectorNumber(index) {
+            return `<span class="sector-number math" style="background:${CAT_COLORS[index]};color:${index === 2 ? '#172554' : 'white'}">${index + 1}</span>`;
+        }
+
+        function renderPieChart() {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            const pieEl = document.getElementById('pie-visualizer');
+            const legendEl = document.getElementById('pie-legend');
+            if (!pieEl) return;
+
+            const cx = 110, cy = 110, r = 98;
+            let currentAngle = 0;
+            let pathsHtml = '';
+            let labelsHtml = '';
+            let legendHtml = '';
+
+            c.angles.forEach((angle, idx) => {
+                const startAngle = currentAngle;
+                const endAngle = currentAngle + angle;
+                const midAngle = startAngle + angle / 2;
+                const isRevealed = state.pieRevealed[idx];
+                const isActive = state.currentPhase === 'angle' && state.activeCell.r === idx;
+                const color = CAT_COLORS[idx];
+                const colorHex = isRevealed ? color : isActive ? color + '24' : '#e2e8f0';
+                const pct = c.correctTable[idx].p;
+                const catLabel = c.categories[idx].label;
+
+                const d = createSlicePath(cx, cy, r, startAngle, endAngle);
+                pathsHtml += `<path d="${d}" fill="${colorHex}" stroke="${isActive ? color : '#ffffff'}" stroke-width="3" ${isActive ? 'stroke-dasharray="4 2"' : ''} class="transition-all duration-500" />`;
+
+                const labelRadius = angle < 45 ? r * 0.72 : r * 0.62;
+                const pos = polarToCartesian(cx, cy, labelRadius, midAngle);
+
+                labelsHtml += `
+                    <g transform="translate(${pos.x}, ${pos.y})">
+                        <circle r="10" fill="${color}" stroke="white" stroke-width="1.5" />
+                        <text y="4.5" text-anchor="middle" fill="${idx === 2 ? '#172554' : 'white'}"
+                            font-size="14" font-family="Latin Modern Math, serif">${idx + 1}</text>
+                    </g>`;
+                legendHtml += `
+                    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl border text-[10px] sm:text-xs font-black transition-all ${isRevealed ? 'bg-slate-800 text-white border-slate-700 shadow-sm' : 'bg-slate-100 text-slate-700 border-slate-200'} ${isActive ? 'active-sector-key' : ''}">
+                        ${sectorNumber(idx)}
+                        <span>${mathText(catLabel)}:</span>
+                        <span class="${isRevealed ? 'text-yellow-300' : 'text-slate-400'}">${isRevealed ? `${math(pct + '%')} (${math(number(angle) + '°')})` : '?% (?°)'}</span>
+                    </div>
+                `;
+
+                currentAngle = endAngle;
+            });
+
+            pieEl.innerHTML = `
+                <svg viewBox="0 0 220 220" class="w-full h-full drop-shadow-xl overflow-visible">
+                    ${pathsHtml}
+                    <path d="M 110 12 L 110 110" stroke="#172554" stroke-width="2" />
+                    <path d="M 105 4 L 115 4 L 110 12 Z" fill="#172554" />
+                    ${labelsHtml}
+                </svg>
+            `;
+
+            if (legendEl) legendEl.innerHTML = legendHtml;
+        }
+
+        // 2 Preguntas finales de pie_quiz
+        function renderFinalQuiz() {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            const list = document.getElementById('final-quiz-list');
+            if (!list) return;
+
+            list.innerHTML = c.pieQuiz.map((q, idx) => {
+                const isCorrect = state.pieQuizStatus[idx] === 'correct';
+                const isWrong = state.pieQuizStatus[idx] === 'wrong';
+                return `
+                <div class="p-2 sm:p-3 rounded-xl border-2 transition-colors shadow-sm ${isCorrect ? 'bg-emerald-50 border-emerald-300' : isWrong ? 'bg-rose-50 border-rose-300 animate-wiggle' : 'bg-white border-slate-200'}">
+                    <p class="text-xs font-extrabold mb-1.5 flex gap-1.5 leading-snug ${isCorrect ? 'text-emerald-800' : 'text-slate-700'}">
+                        <span class="text-emerald-600 shrink-0 font-black">🎯</span> ${mathText(q.q)}
+                    </p>
+                    <div class="flex gap-2">
+                        <input type="text" inputmode="decimal" value="${escapeHtml(state.pieQuizAnswers[idx])}" oninput="AudioController.play('type'); state.pieQuizAnswers[${idx}]=this.value" onkeydown="if(event.key==='Enter') handleFinalQuizCheck(${idx})" ${isCorrect ? 'disabled' : ''} placeholder="Respuesta..."
+                            class="flex-1 bg-slate-50 border-b-[3px] rounded-lg py-1 px-2 text-xs sm:text-sm font-black text-center focus:outline-none transition-all ${isCorrect ? 'border-emerald-400 text-emerald-600' : isWrong ? 'border-rose-400 text-rose-500' : 'border-slate-300 focus:border-indigo-500 text-indigo-700'}">
+                        ${!isCorrect ? 
+                            `<button type="button" onclick="handleFinalQuizCheck(${idx})" onmouseenter="AudioController.play('hover')" class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1 rounded-lg font-black transition-all border-b-[3px] border-indigo-800 active:border-b-0 active:translate-y-[2px] shadow uppercase text-[10px] cursor-pointer">Enviar</button>` 
+                            : `<div class="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-lg font-black flex items-center justify-center border border-emerald-300 text-xs">✓</div>`
+                        }
+                    </div>
+                </div>`;
+            }).join('');
+            safeIcons();
+        }
+
+        function handleFinalQuizCheck(idx) {
+            const c = CHALLENGES[state.currentChallengeIdx];
+            if (state.currentPhase !== 'pie_quiz' || state.pieQuizStatus[idx] === 'correct' || !state.pieQuizAnswers[idx]?.trim()) return;
+            const targetQ = c.pieQuiz[idx];
+            const isCorrect = checkValueMatch(state.pieQuizAnswers[idx], targetQ.a, idx === 0 ? '°' : '%');
+            
+            if (isCorrect) {
+                AudioController.play('correct'); 
+                state.pieQuizStatus[idx] = 'correct'; 
+                renderFinalQuiz();
+                
+                if (state.pieQuizStatus.every(s => s === 'correct')) {
+                    completeLevel();
+                } else {
+                    setBotState(`¡Muy bien! Responde la última pregunta para terminar la actividad.`, false, true);
+                }
+            } else {
+                penalize('Revisa la leyenda del gráfico.');
+                state.pieQuizStatus[idx] = 'wrong';
+                renderFinalQuiz();
+            }
+        }
+
+        // ==========================================
+        // FINALIZACIÓN DE NIVEL Y REPORTES
+        // ==========================================
+        function completeLevel() {
+            AudioController.play('win');
+            const ch = CHALLENGES[state.currentChallengeIdx];
+            
+            state.gameScores[ch.id] = { player: state.playerName, score: state.gameScore };
+            if (!state.completedChallenges.includes(ch.id)) state.completedChallenges.push(ch.id);
+
+            const isPerfect = state.gameScore === ch.points;
+            
+            document.getElementById('challenge-workspace').className = "flex-1 flex flex-col items-center w-full relative max-w-7xl mx-auto transition-all duration-500 opacity-20 blur pointer-events-none";
+            document.getElementById('overlay-complete').classList.remove('hidden');
+            
+            const modalEl = document.getElementById('complete-modal');
+            const glowEl = document.getElementById('complete-glow-color');
+            const badgeEl = document.getElementById('complete-badge');
+            const titleEl = document.getElementById('complete-title');
+            const headingEl = document.getElementById('complete-student-heading');
+            const descEl = document.getElementById('complete-desc');
+            const scoreBoxEl = document.getElementById('complete-score-box');
+            const btnEl = document.getElementById('complete-btn');
+
+            document.getElementById('complete-name').innerText = state.playerName;
+            document.getElementById('complete-score').innerHTML = `${math(state.gameScore)} PUNTOS`;
+
+            if (isPerfect) {
+                modalEl.className = "w-full max-w-2xl p-6 sm:p-10 rounded-[3rem] flex flex-col items-center justify-center text-center animate-jellyPop overflow-y-auto shadow-2xl relative z-10 metallic-celeste perfect-card";
+                glowEl.className = "w-full h-full bg-yellow-400/25 animate-ping rounded-full blur-3xl max-w-xl max-h-xl";
+                badgeEl.className = "relative z-10 text-yellow-900 bg-white/50 border-yellow-200 px-6 py-2 rounded-full mb-4 border-2 shadow-sm backdrop-blur-sm";
+                titleEl.innerHTML = '<i data-lucide="award" class="w-6 h-6"></i> ¡PUNTAJE PERFECTO!';
+                titleEl.className = "font-black uppercase tracking-widest flex items-center justify-center gap-2 text-base sm:text-xl metallic-text-gold text-yellow-900";
+                headingEl.className = "relative z-10 text-3xl sm:text-5xl font-black mb-2 leading-tight uppercase metallic-text-gold text-yellow-950";
+                descEl.innerText = `Resolviste todo sin errores. ¡Sigue así en el próximo reto!`;
+                descEl.className = "relative z-10 text-sm sm:text-lg font-extrabold mb-6 uppercase tracking-wider text-yellow-900/90";
+                scoreBoxEl.className = "relative z-10 px-8 py-4 rounded-[2rem] border-b-[6px] mb-8 shadow-2xl transform rotate-1 bg-white/70 border-white text-yellow-900";
+                btnEl.className = "relative z-10 px-8 py-4 font-black text-lg sm:text-xl rounded-2xl transition-all flex items-center gap-3 border-b-[6px] shadow-2xl active:border-b-0 active:translate-y-[6px] uppercase tracking-wider hover:brightness-110 bg-slate-900 border-black text-yellow-400";
+                setBotState(`¡Impresionante, ${state.playerName}! ¡Terminaste todo el proceso estadístico de secundaria sin un solo error!`, false, true);
+            } else {
+                modalEl.className = "w-full max-w-2xl p-6 sm:p-10 rounded-[3rem] flex flex-col items-center justify-center text-center animate-jellyPop overflow-y-auto shadow-2xl relative z-10 metallic-celeste";
+                glowEl.className = "w-full h-full bg-sky-400/25 animate-ping rounded-full blur-3xl max-w-xl max-h-xl";
+                badgeEl.className = "relative z-10 text-sky-900 bg-white/50 border-sky-200 px-6 py-2 rounded-full mb-4 border-2 shadow-sm backdrop-blur-sm";
+                titleEl.innerHTML = '<i data-lucide="sparkles" class="w-6 h-6"></i> ¡BUEN ESFUERZO!';
+                titleEl.className = "font-black uppercase tracking-widest flex items-center justify-center gap-2 text-base sm:text-xl metallic-text-celeste text-sky-900";
+                headingEl.className = "relative z-10 text-3xl sm:text-5xl font-black mb-2 leading-tight uppercase metallic-text-celeste text-sky-950";
+                descEl.innerText = `Completaste el análisis. ¡Sigue practicando! Puedes volver a intentarlo y mejorar tu puntaje.`;
+                descEl.className = "relative z-10 text-sm sm:text-lg font-extrabold mb-6 uppercase tracking-wider text-sky-900/90";
+                scoreBoxEl.className = "relative z-10 px-8 py-4 rounded-[2rem] border-b-[6px] mb-8 shadow-2xl transform rotate-1 bg-white/70 border-white text-sky-900";
+                btnEl.className = "relative z-10 px-8 py-4 font-black text-lg sm:text-xl rounded-2xl transition-all flex items-center gap-3 border-b-[6px] shadow-2xl active:border-b-0 active:translate-y-[6px] uppercase tracking-wider hover:brightness-110 bg-slate-900 border-black text-sky-400";
+                setBotState(`¡Excelente trabajo de análisis, ${state.playerName}! Has completado el ejercicio.`, false, true);
+            }
+
+            triggerConfetti();
+            safeIcons();
+        }
+
+        function showResult() {
+            AudioController.play('win');
+            const totalScore = Object.values(state.gameScores).reduce((acc, curr) => acc + curr.score, 0);
+
+            document.getElementById('result-score').innerHTML = math(totalScore);
+            triggerConfetti();
+            setBotState(`¡Aquí está el consolidado global de todos los estudiantes de secundaria! Grandes analistas de datos.`, false, true);
+            changeView('result');
+        }
+
+        function resetGame() {
+            AudioController.play('swoosh');
+            state.completedChallenges = [];
+            state.gameScores = {};
+            state.playerName = '';
+            document.getElementById('confetti-container').innerHTML = '';
+            changeView('map');
+            setBotState("¡Hola de nuevo! Todos los retos han sido reiniciados.", false, false, true);
+        }
+
+        function downloadReport() {
+            AudioController.play('correct');
+            const MAX_TOTAL = 10000;
+            const totalScore = Object.values(state.gameScores).reduce((acc, curr) => acc + curr.score, 0);
+            const date = new Date().toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            
+            let report = `=======================================\n      REPORTE DE ESTADÍSTICA INTERACTIVA   \n         SECUNDARIA - TuProfe20 MathLab      \n=======================================\n\nFECHA: ${date}\n\n=======================================\nPUNTAJE GLOBAL: ${totalScore} / ${MAX_TOTAL} PUNTOS\n=======================================\n\nDETALLE POR ACTIVIDAD:\n---------------------------------------\n`;
+            
+            CHALLENGES.forEach((t, i) => { 
+                const scData = state.gameScores[t.id];
+                if (scData) {
+                    report += `Reto ${i + 1}: ${t.title}\nCompletado por: ${scData.player}\nPuntaje: ${scData.score} / ${t.points}\n\n`; 
+                } else {
+                    report += `Reto ${i + 1}: ${t.title}\nEstado: Pendiente\n\n`;
+                }
+            });
+            report += `---------------------------------------\n¡Excelente participación en la clase de estadística!\n`;
+            
+            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob); 
+            const link = document.createElement('a');
+            link.href = url; 
+            link.download = `Reporte_Estadistica_Secundaria.txt`;
+            document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+        }
+
+        function triggerConfetti() {
+            const colors = ['#fde047', '#60a5fa', '#f472b6', '#34d399', '#a78bfa', '#ff5722'];
+            const container = document.getElementById('confetti-container');
+            container.innerHTML = '';
+            for(let i=0; i<140; i++) {
+                const el = document.createElement('div');
+                const left = `${50 + (Math.random() * 20 - 10)}%`;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const tx = `${(Math.random() - 0.5) * 850}px`;
+                const ty = `${(Math.random() - 1) * 850}px`;
+                const rot = `${Math.random() * 720}deg`;
+                const delay = `${Math.random() * 0.2}s`;
+                
+                el.className = "absolute w-4 h-4 sm:w-5 sm:h-5 rounded-full animate-confettiExplosion shadow-sm";
+                el.style.backgroundColor = color;
+                el.style.setProperty('--tx', tx);
+                el.style.setProperty('--ty', ty);
+                el.style.setProperty('--rot', rot);
+                el.style.animationDelay = delay;
+                el.style.left = left;
+                el.style.top = '50%';
+                container.appendChild(el);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initFloatingBackground();
+            renderMap();
+            safeIcons();
+        });
+    </script>
+</body>
+</html>
